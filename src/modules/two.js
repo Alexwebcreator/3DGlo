@@ -1,6 +1,5 @@
-const showTwo = () => {
-  const two = 'two.js';
-  console.log(two);
+const two = () => {
+  
 };
 
-export default showTwo;
+export default two;

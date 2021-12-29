@@ -1,5 +1,3 @@
-import showOne from './modules/one';
-import showTwo from './modules/two';
+import timer from './modules/timer';
 
-showOne();
-showTwo();
+timer('02 january 2022');
