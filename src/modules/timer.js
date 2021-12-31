@@ -1,10 +1,8 @@
 const timer = (deadline) => {
+  const timerDays = document.getElementById('timer-days');
   const timerHours = document.getElementById('timer-hours');
   const timerMinutes = document.getElementById('timer-minutes');
   const timerSeconds = document.getElementById('timer-seconds');
-  console.log(timerHours);
-  console.log(timerMinutes);
-  console.log(timerSeconds);
 
   const getTimeRemaining = () => {
     let dateStop = new Date(deadline).getTime();
@@ -14,25 +12,49 @@ const timer = (deadline) => {
     let hours = Math.floor((timeRemaining / 60 / 60) % 24);
     let minutes = Math.floor((timeRemaining / 60) % 60);
     let seconds = Math.floor(timeRemaining % 60);
+    if (dateStop < dateNow) {
+      days = "0";
+      hours = "0";
+      minutes = "0";
+      seconds = "0";
+    }
 
-    return {timeRemaining, hours, minutes, seconds};
+
+    return {timeRemaining, days, hours, minutes, seconds};
+    
 
   };
 
   const updateClock = () => {
     let getTime = getTimeRemaining();
-    console.log(getTime);
-    timerHours.textContent = getTime.hours;
-    timerMinutes.textContent = getTime.minutes;
-    timerSeconds.textContent = getTime.seconds;
-
-    if(getTime.timeRemaining > 0) {
-      setTimeout(updateClock, 1000);
+    if (getTime.days < 10) {
+      timerDays.textContent = '0' + getTime.days;
+    } else {
+      timerDays.textContent = getTime.days;
+    }
+    if (getTime.hours < 10) {
+      timerHours.textContent = '0' + getTime.hours;
+    } else {
+      timerHours.textContent = getTime.hours;
+    }
+    if (getTime.minutes < 10) {
+      timerMinutes.textContent = '0' + getTime.minutes;
+    } else {
+      timerMinutes.textContent = getTime.minutes;
+    }
+    if (getTime.seconds < 10) {
+      timerSeconds.textContent = '0' + getTime.seconds;
+    } else {
+      timerSeconds.textContent = getTime.seconds;
+    }
+  
+    if(getTime.timeRemaining < 0) {
+      clearInterval(timerId);
     }
     
   };
 
-  updateClock();
+  let timerId = setInterval(updateClock, 1000);
 
 };
 
