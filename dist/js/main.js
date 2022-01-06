@@ -30,6 +30,16 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 
 /***/ }),
 
+/***/ "./modules/helpers.js":
+/*!****************************!*\
+  !*** ./modules/helpers.js ***!
+  \****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"animate\": () => (/* binding */ animate)\n/* harmony export */ });\nconst animate = ({timing, draw, duration}) => {\r\n\r\n  let start = performance.now();\r\n\r\n  requestAnimationFrame(function animate(time) {\r\n    // timeFraction изменяется от 0 до 1\r\n    let timeFraction = (time - start) / duration;\r\n    if (timeFraction > 1) timeFraction = 1;\r\n\r\n    // вычисление текущего состояния анимации\r\n    let progress = timing(timeFraction);\r\n\r\n    draw(progress); // отрисовать её\r\n\r\n    if (timeFraction < 1) {\r\n      requestAnimationFrame(animate);\r\n    }\r\n\r\n  });\r\n}\r\n\r\n\n\n//# sourceURL=webpack:///./modules/helpers.js?");
+
+/***/ }),
+
 /***/ "./modules/inputs.js":
 /*!***************************!*\
   !*** ./modules/inputs.js ***!
@@ -56,7 +66,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
   \**************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\nconst modal = () => {\r\n  const modal = document.querySelector('.popup');\r\n  const buttons = document.querySelectorAll('.popup-btn');\r\n  let count = 0;\r\n  let idAnimationOpen;\r\n  let idAnimationClose;\r\n\r\n  const animationOpen = () => {\r\n    count += 0.05;\r\n\r\n    idAnimationOpen = requestAnimationFrame(animationOpen);\r\n    if (count < 1) {\r\n      modal.style.opacity = count;\r\n    } else {\r\n      modal.style.opacity = 1;\r\n      cancelAnimationFrame(idAnimationOpen);\r\n    }\r\n  };\r\n\r\n  const animationClose = () => {\r\n    count -= 0.05;\r\n\r\n    idAnimationClose = requestAnimationFrame(animationClose);\r\n    if (count > 0) {\r\n      modal.style.opacity = count;\r\n    } else {\r\n      modal.style.opacity = \"\";\r\n      modal.style.display = \"none\";\r\n      cancelAnimationFrame(idAnimationClose);\r\n    }\r\n  };\r\n\r\n  buttons.forEach((button) => {\r\n    button.addEventListener(\"click\", () => {\r\n      modal.style.display = \"block\";\r\n      if (screen.width > 768) {\r\n        animationOpen();\r\n      }\r\n    });\r\n  });\r\n\r\n  modal.addEventListener('click', (e) => {\r\n    if (!e.target.closest('.popup-content') || e.target.classList.contains('popup-close')) {\r\n      if (screen.width > 768) {\r\n        animationClose();\r\n      } else {\r\n        modal.style.display = \"none\";\r\n      }\r\n    }\r\n  });\r\n\r\n};\r\n\r\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (modal);\n\n//# sourceURL=webpack:///./modules/modal.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony import */ var _helpers__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./helpers */ \"./modules/helpers.js\");\n\r\n\r\nconst modal = () => {\r\n  const modal = document.querySelector('.popup');\r\n  const buttons = document.querySelectorAll('.popup-btn');\r\n\r\n  buttons.forEach((button) => {\r\n    button.addEventListener(\"click\", () => {\r\n      modal.style.display = \"block\";\r\n      if (screen.width > 768) {\r\n        (0,_helpers__WEBPACK_IMPORTED_MODULE_0__.animate)({\r\n          duration: 1000,\r\n          timing(timeFraction) {\r\n            return timeFraction;\r\n          },\r\n          draw(progress) {\r\n            modal.style.opacity = progress;\r\n          },\r\n        });\r\n      }\r\n    });\r\n  });\r\n\r\n  modal.addEventListener('click', (e) => {\r\n    if (!e.target.closest('.popup-content') || e.target.classList.contains('popup-close')) {\r\n      if (screen.width > 768) {\r\n        (0,_helpers__WEBPACK_IMPORTED_MODULE_0__.animate)({\r\n          duration: 1000,\r\n          timing(timeFraction) {\r\n            return 1 - timeFraction;\r\n          },\r\n          draw(progress) {\r\n            modal.style.opacity = progress;\r\n          },\r\n        });\r\n        setTimeout(() => {\r\n          modal.style.display = \"none\";\r\n          modal.style.opacity = \"\";\r\n        }, 1100);\r\n      } else {\r\n        modal.style.display = \"none\";\r\n        modal.style.opacity = \"\";\r\n      }\r\n    }\r\n  });\r\n\r\n};\r\n\r\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (modal);\n\n//# sourceURL=webpack:///./modules/modal.js?");
 
 /***/ }),
 
