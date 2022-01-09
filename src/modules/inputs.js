@@ -19,14 +19,17 @@ const inputs = () => {
 
   const isCyryl = (n) => {
     n.target.value = n.target.value.replace(/[^а-я\s\-]/gi, "");
-    console.log('hello');
+  };
+
+  const notEng = (n) => {
+    n.target.value = n.target.value.replace(/[a-z]/gi, "");
   };
 
   topName.addEventListener('input', isCyryl);
   names.forEach((item) =>
     item.addEventListener("input", isCyryl)
   );
-  message.addEventListener('input', isCyryl);
+  message.addEventListener('input', notEng);
   
   const isEmail = (s) => {
     s.target.value = s.target.value.replace(/[^\w\-\_\.\!\~\*\'@]/gi, "");
