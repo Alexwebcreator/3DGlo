@@ -81,18 +81,15 @@ const sendForm = ({ formId, someElem = [] }) => {
     const formData = new FormData(form);
     const formBody = {};
 
-    statusBlock.textContent = loadText;
-    form.append(statusBlock);
-
     formData.forEach((val, key) => {
       formBody[key] = val;
     });
 
     someElem.forEach(elem => {
       const element = document.getElementById(elem.id);
-      if (elem.type === 'block') {
+      if (elem.type === 'block' && element.textContent != 0) {
         formBody[elem.id] = element.textContent;
-      } else if (elem.type === 'input') {
+      } else if (elem.type === 'input' && element.value != 0) {
         formBody[elem.id] = element.value;
       }
     });
@@ -102,18 +99,27 @@ const sendForm = ({ formId, someElem = [] }) => {
       mess.forEach((mes) => {
         mes.remove();
       });
-      sendData(formBody).then(data => {
-        statusBlock.textContent = successText;
-        setTimeout(() => statusBlock.remove(), 5000);
+      statusBlock.textContent = loadText;
+      form.append(statusBlock);
+      if (formId == "form3") {
+        statusBlock.style.color = "white";
+      }
+      sendData(formBody)
+        .then((data) => {
+          console.log(data);
+          statusBlock.textContent = successText;
+          setTimeout(() => statusBlock.remove(), 5000);
 
-        formElements.forEach(input => {
-          input.value = '';
+          formElements.forEach(input => {
+            input.value = '';
+          });
+        })
+        .catch((error) => {
+          statusBlock.textContent = errorText;
+          form.append(statusBlock);
+          console.log(error.message);
+          setTimeout(() => statusBlock.remove(), 5000);
         });
-      })
-      .catch(error => {
-        statusBlock.textContent = errorText;
-        setTimeout(() => statusBlock.remove(), 5000);
-      });
     } else {
       alert('Данные формы заполнены не верно!');
     }
@@ -125,7 +131,6 @@ const sendForm = ({ formId, someElem = [] }) => {
     }
     form.addEventListener('submit', (event) => {
       event.preventDefault();
-
       submitForm();
     });
   } catch(error) {
